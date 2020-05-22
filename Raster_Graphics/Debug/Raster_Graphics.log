@@ -1,0 +1,3 @@
+﻿  Matrix.cpp
+C:\Users\vesel\source\repos\Raster_Graphics\Raster_Graphics\Matrix.cpp(101,16): warning C4553: '==': result of expression not used; did you intend '='?
+  Raster_Graphics.vcxproj -> C:\Users\vesel\source\repos\Raster_Graphics\Debug\Raster_Graphics.exe
