@@ -22,7 +22,7 @@ Image::Image()
 	this->maxColourValue = 0;
 }
 
-Image::Image(Matrix* matrix, string fileFormat, const int maxColourValue)
+Image::Image(Matrix* matrix, string fileFormat, int maxColourValue)
 {
 	this->matrix = matrix;
 	this->fileFormat = fileFormat;
@@ -95,19 +95,19 @@ int Image::getMaxColourValue() const
 
 ostream& operator<<(ostream& output, const Image& image)
 {
-	output << image.matrix << endl;
 	output << image.fileFormat << endl;
 	output << image.maxColourValue << endl;
+	output << image.matrix << endl;
 
 	return output;
 }
 
 istream& operator>>(istream& input, Image& image)
 {
-	image.matrix = new Matrix();
-	input >> *image.matrix;
 	input >> image.fileFormat;
 	input >> image.maxColourValue;
-
+	image.matrix = new Matrix();
+	input >> *image.matrix;
+	
 	return input;
 }

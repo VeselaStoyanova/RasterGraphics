@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "Common.h"
+#include "Pixel.h"
 using namespace std;
 
 class Matrix
@@ -8,14 +9,14 @@ class Matrix
 private:
 	int rows;
 	int columns;
-	int** pixels;
+	Pixel** pixels;
 
 	void copy(const Matrix& other);
 	void erase();
 
 public:
 	Matrix();
-	Matrix(int rows, int columns, int **pixels);
+	Matrix(int rows, int columns, Pixel** pixels);
 	Matrix(const Matrix& other);
 	Matrix& operator=(const Matrix& other);
 	bool operator==(const Matrix& other);
@@ -24,12 +25,12 @@ public:
 	//Setters
 	void setRows(const int rows);
 	void setColomns(const int columns);
-	void setPixels(const int **pixels);
+	void setPixels(const Pixel** pixels);
 
 	//Getters
 	int getRows() const;
 	int getColomns() const;
-	int** getPixels() const;
+	Pixel** getPixels() const;
 
 	friend ostream& operator<<(ostream& output, const Matrix& m);
 	friend istream& operator>>(istream& input, Matrix& m);

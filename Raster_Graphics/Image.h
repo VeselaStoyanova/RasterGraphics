@@ -14,7 +14,7 @@ private:
 
 public:
 	Image();
-	Image(Matrix* matrix, string fileFormat, const int maxColourValue);
+	Image(Matrix* matrix, string fileFormat, int maxColourValue);
 	Image(const Image& other);
 	Image& operator=(const Image& other);
 	bool operator==(const Image& other);

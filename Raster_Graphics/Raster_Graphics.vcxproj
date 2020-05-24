@@ -142,12 +142,21 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="PBMImage.cpp" />
+    <ClCompile Include="PGMImage.cpp" />
+    <ClCompile Include="Pixel.cpp" />
+    <ClCompile Include="PPMImage.cpp" />
+    <ClCompile Include="Tests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComandsExecutor.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="PBMImage.h" />
+    <ClInclude Include="PGMImage.h" />
+    <ClInclude Include="Pixel.h" />
+    <ClInclude Include="PPMImage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,10 +8,10 @@ void Matrix::copy(const Matrix& other)
 	this->rows = other.rows;
 	this->columns = other.columns;
 	
-	this->pixels = new int* [rows];
+	this->pixels = new Pixel* [rows];
 	for (int i = 0; i < rows; ++i)
 	{
-		this->pixels[i] = new int[columns];
+		this->pixels[i] = new Pixel[columns];
 	}
 
 	for (int i = 0; i < rows; i++) {
@@ -39,16 +39,16 @@ Matrix::Matrix()
 	this->pixels = nullptr;
 }
 
-Matrix::Matrix(int rows, int columns, int **pixels)
+Matrix::Matrix(int rows, int columns, Pixel** pixels)
 {
 	this->rows = rows;
 	this->columns = columns;
 	
 	// Заделяме необходимата памет
-	this->pixels = new int* [rows];
+	this->pixels = new Pixel* [rows];
 	for (int i = 0; i < rows; ++i) 
 	{
-		this->pixels[i] = new int[columns];
+		this->pixels[i] = new Pixel[columns];
 	}
 
 	// Копираме самите стойности
@@ -66,10 +66,10 @@ Matrix::Matrix(const Matrix& other)
 	this->rows = other.rows;
 	this->columns = other.columns;
 
-	this->pixels = new int* [rows];
+	this->pixels = new Pixel* [rows];
 	for (int i = 0; i < rows; ++i) 
 	{
-		this->pixels[i] = new int[columns];
+		this->pixels[i] = new Pixel[columns];
 	}
 
 	for (int i = 0; i < rows; i++)
@@ -115,14 +115,14 @@ void Matrix::setColomns(const int columns)
 	this->columns = columns;
 }
 
-void Matrix::setPixels(const int **pixels)
+void Matrix::setPixels(const Pixel **pixels)
 {
 	this->erase();
 
-	this->pixels = new int* [rows];
+	this->pixels = new Pixel* [rows];
 	for (int i = 0; i < rows; ++i)
 	{
-		this->pixels[i] = new int[columns];
+		this->pixels[i] = new Pixel[columns];
 	}
 
 	for (int i = 0; i < rows; i++) 
@@ -146,45 +146,45 @@ int Matrix::getColomns() const
 	return this->columns;
 }
 
-int** Matrix::getPixels() const
+Pixel** Matrix::getPixels() const
 {
 	return this->pixels;
 }
 
-ostream& operator<<(ostream& output, const Matrix& m)
+ostream& operator<<(ostream& output, const Matrix& matrix)
 {
-	output << m.rows << endl;
-	output << m.columns << endl;
+	output << matrix.rows << endl;
+	output << matrix.columns << endl;
 
-	for (int i = 0; i < m.rows; i++) {
-		for (int j = 0; j < m.columns; j++)
+	for (int i = 0; i < matrix.rows; i++) {
+		for (int j = 0; j < matrix.columns; j++)
 		{
-			output << m.pixels[i][j] << " ";
+			output << matrix.pixels[i][j] << " ";
 		}
 		output << endl;
 	}
-	//output << m.pixels << endl;
 	
 	return output;
 }
 
-istream& operator>>(istream& input, Matrix& m)
+istream& operator>>(istream& input, Matrix& matrix)
 {
-	m.erase();
+	matrix.erase();
 
-	input >> m.rows;
-	input >> m.columns;
+	input >> matrix.rows;
+	input >> matrix.columns;
 
-	m.pixels = new int* [m.rows];
-	for (int i = 0; i < m.rows; ++i)
+	matrix.pixels = new Pixel* [matrix.rows];
+	for (int i = 0; i < matrix.rows; ++i)
 	{
-		m.pixels[i] = new int[m.columns];
+		matrix.pixels[i] = new Pixel[matrix.columns];
 	}
 
-	for (int i = 0; i < m.rows; i++) {
-		for (int j = 0; j < m.columns; j++)
+	for (int i = 0; i < matrix.rows; i++)
+	{
+		for (int j = 0; j < matrix.columns; j++)
 		{
-			input >> m.pixels[i][j];
+			input >> matrix.pixels[i][j];
 		}
 	}
 	return input;
