@@ -74,5 +74,5 @@ void openFile()
 int main()
 {
 	//testMatrix();
-	loadFileWithImage("PBMFile.txt");
+	showMenu();
 }

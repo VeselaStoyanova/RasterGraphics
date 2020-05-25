@@ -15,6 +15,14 @@ public:
 	Pixel();
 	Pixel(int red, int green, int blue);
 	Pixel& operator=(const Pixel& other);
-	friend ostream& operator<<(ostream& output, const Pixel& m);
+
+	void setRed(const int red);
+	void setGreen(const int green);
+	void setBlue(const int blue);
+
+	int getRed() const;
+	int getGreen() const;
+	int getBlue() const;
+
 	friend istream& operator>>(istream& input, Pixel& m);
 };

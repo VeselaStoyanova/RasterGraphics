@@ -26,10 +26,10 @@ void Matrix::erase()
 {
 	for (int i = 0; i < rows; ++i)
 	{
-		delete[] this->pixels[i];
+		delete this->pixels[i];
 	}
 
-	delete[] pixels;
+	delete this->pixels;
 }
 
 Matrix::Matrix()
@@ -151,21 +151,18 @@ Pixel** Matrix::getPixels() const
 	return this->pixels;
 }
 
-ostream& operator<<(ostream& output, const Matrix& matrix)
-{
-	output << matrix.rows << endl;
-	output << matrix.columns << endl;
-
-	for (int i = 0; i < matrix.rows; i++) {
-		for (int j = 0; j < matrix.columns; j++)
-		{
-			output << matrix.pixels[i][j] << " ";
-		}
-		output << endl;
-	}
-	
-	return output;
-}
+//ostream& operator<<(ostream& output, const Matrix& matrix)
+//{
+//	for (int i = 0; i < matrix.rows; i++) {
+//		for (int j = 0; j < matrix.columns; j++)
+//		{
+//			output << matrix.pixels[i][j] << " ";
+//		}
+//		output << endl;
+//	}
+//	
+//	return output;
+//}
 
 istream& operator>>(istream& input, Matrix& matrix)
 {

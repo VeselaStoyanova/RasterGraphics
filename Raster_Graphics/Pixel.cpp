@@ -28,6 +28,36 @@ void Pixel::erase()
 
 }
 
+void Pixel::setRed(const int red)
+{
+	this->red = red;
+}
+
+void Pixel::setGreen(const int green)
+{
+	this->green = green;
+}
+
+void Pixel::setBlue(const int blue)
+{
+	this->blue = blue;
+}
+
+int Pixel::getRed() const
+{
+	return this->red;
+}
+
+int Pixel::getGreen() const
+{
+	return this->green;
+}
+
+int Pixel::getBlue() const
+{
+	return this->blue;
+}
+
 Pixel& Pixel::operator=(const Pixel& other)
 {
 	if (this != &other)
@@ -37,15 +67,6 @@ Pixel& Pixel::operator=(const Pixel& other)
 	}
 
 	return *this;
-}
-
-ostream& operator<<(ostream& output, const Pixel& pixels)
-{
-	output << pixels.red << " ";
-	output << pixels.green << " ";
-	output << pixels.blue << endl;
-
-	return output;
 }
 
 istream& operator>>(istream& input, Pixel& pixels)

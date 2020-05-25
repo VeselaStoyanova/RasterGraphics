@@ -6,6 +6,9 @@
 #include "CommandsExecutor.h"
 #include "Image.h"
 #include "Session.h"
+#include "PBMImage.h"
+#include "PGMImage.h"
+#include "PPMImage.h"
 using namespace std;
 
 void showHelp()
@@ -58,21 +61,42 @@ Matrix* constructMatrix(int rows, int columns, vector<int>numbers, string fileTy
 			}
 		}
 
-		for (int i = 0; i < rows; i++)
+		/*for (int i = 0; i < rows; i++)
 		{
 			for (int j = 0; j < columns; j++)
 			{
 				cout << pixels[i][j];
 			}
-		}
+		}*/
 	
 	matrix = new Matrix(rows, columns, pixels);
 
 	return matrix;
 }
 
+Image* createImageWithMatrix(Matrix* matrix, string fileType, int maxColor, string filePath)
+{
+	Image* image = nullptr;
+	if (fileType.compare("P1") == 0)
+	{
+		image = new PBMImage(matrix, fileType, maxColor, filePath);
+	}
+
+	else if (fileType.compare("P2") == 0)
+	{
+		image = new PGMImage(matrix, fileType, maxColor, filePath);
+	}
+
+	else if (fileType.compare("P3") == 0)
+	{
+		image = new PPMImage(matrix, fileType, maxColor, filePath);
+	}
+
+	return image;
+}
+
 //Open file.
-Image loadFileWithImage(string filePath)
+Image* loadFileWithImage(string filePath)
 {
 	ifstream inputFileStream;
 	inputFileStream.open(filePath, ios::in);
@@ -82,28 +106,15 @@ Image loadFileWithImage(string filePath)
 
 	if (inputFileStream.is_open())
 	{
-		
 		inputFileStream >> fileType;
-		/*getline(inputFileStream, fileType);
-		string columnsString;
-		string rowsString;
-		getline(inputFileStream, columnsString, ' ');
-		getline(inputFileStream, rowsString, ' ');
-
-		int columns = stoi(columnsString);
-		int rows = stoi(rowsString);*/
 
 		int columns;
 		inputFileStream >> columns;
 		int rows;
 		inputFileStream >> rows;
 
-		
 		if (fileType.compare("P1") != 0) {
-			string maxColorString;
-			inputFileStream >> maxColorString;
-			//getline(inputFileStream, maxColorString, ' ');
-			//maxColor = stoi(maxColorString);
+			inputFileStream >> maxColor;
 		}
 
 		int count = rows * columns;
@@ -117,8 +128,6 @@ Image loadFileWithImage(string filePath)
 
 		while (count > 0)
 		{
-			//getline(inputFileStream, currentNumberString, ' ');
-			//int currentNumber = stoi(currentNumberString);
 			int currentNumber;
 			inputFileStream >> currentNumber;
 			numbers.push_back(currentNumber);
@@ -126,16 +135,14 @@ Image loadFileWithImage(string filePath)
 		}
 
 		matrix = constructMatrix(rows, columns, numbers, fileType);
-		/*if (fileType.compare("P1") == 0)
-		{
-			;
-		}*/
+
+	}
+	else {
+		cout << "The file " << filePath << " was not found." << endl;
 	}
 
-	return Image(matrix, fileType, maxColor, filePath);
+	return createImageWithMatrix(matrix, fileType, maxColor, filePath);
 }
-
-
 
 void saveImageInFile(Image& image, string filePath)
 {
@@ -144,7 +151,7 @@ void saveImageInFile(Image& image, string filePath)
 
 	if (outputFileStream.is_open())
 	{
-		outputFileStream << image;
+		image.outputImage(outputFileStream);
 	}
 }
 
@@ -153,17 +160,17 @@ bool isCommandLoad(string choice)
 	return choice.size() > 5 && choice.substr(0, 5).compare("load ") == 0;
 }
 
-bool isFileSavedAs(string choice)
+bool isCommandSaveAs(string choice)
 {
 	return choice.size() > 8 && choice.substr(0, 8).compare("save as ") == 0;
 }
 
-bool isFileRotated(string choice)
+bool isCommandRotate(string choice)
 {
 	return choice.size() > 7 && choice.substr(0, 7).compare("rotate ") == 0;
 }
 
-bool isFileAdded(string choice)
+bool isCommandAdd(string choice)
 {
 	return choice.size() > 4 && choice.substr(0, 4).compare("add ") == 0;
 }
@@ -173,12 +180,12 @@ bool isCommandSessionInfo(string choice)
 	return choice.size() > 12 && choice.substr(0, 12).compare("session info") == 0;
 }
 
-bool isSessionSwitched(string choice)
+bool isCommandSwitchSession(string choice)
 {
 	return choice.size() > 7 && choice.substr(0, 7).compare("switch ") == 0;
 }
 
-bool isImageCollage(string choice)
+bool isCommandCollage(string choice)
 {
 	return choice.size() > 8 && choice.substr(0, 8).compare("collage ") == 0;
 }
@@ -227,11 +234,11 @@ string showAdvancedMenu()
 		getline(cin, choice);
 	}
 
-	while (choice.compare("close") != 0 && choice.compare("save") != 0 && !isFileSavedAs(choice)
+	while (choice.compare("close") != 0 && choice.compare("save") != 0 && !isCommandSaveAs(choice)
 		&& choice.compare("help") != 0 && choice.compare("exit") != 0 && choice.compare("grayscale") != 0
-		&& choice.compare("monochrome") != 0 && choice.compare("negative") != 0 && !isFileRotated(choice)
-		&& choice.compare("undo") != 0 && !isFileAdded(choice) && !isCommandSessionInfo(choice)
-		&& !isSessionSwitched(choice) && isImageCollage(choice));
+		&& choice.compare("monochrome") != 0 && choice.compare("negative") != 0 && !isCommandRotate(choice)
+		&& choice.compare("undo") != 0 && !isCommandAdd(choice) && !isCommandSessionInfo(choice)
+		&& !isCommandSwitchSession(choice) && !isCommandCollage(choice));
 
 	return choice;
 }
@@ -252,9 +259,10 @@ string showParticularMenu(bool isFileLoad)
 void showMenu()
 {
 	bool isSessionStarted = false;
-	vector<Session>sessions;
+	vector<Session> sessions;
 	string filePath;
 	string choice;
+	int sessionID = 1;
 
 	while (choice.compare("exit") != 0)
 	{
@@ -268,8 +276,14 @@ void showMenu()
 			bool isFileNameNotOnlyIntervals = filePath.find_first_not_of(' ') != std::string::npos;
 			if (isFileNameNotOnlyIntervals)
 			{
-				cout << "Open file." << endl;
-				loadFileWithImage(filePath);
+				Session session = Session(sessionID);
+				cout << "Session with ID: " << sessionID << " started" << endl;
+				sessionID++;
+				Image* image = loadFileWithImage(filePath);
+				session.addImage(image);
+				sessions.push_back(session);
+				image->grayscale();
+				saveImageInFile(*image, filePath);
 				isSessionStarted = true;
 			}
 
@@ -308,7 +322,7 @@ void showMenu()
 			isSessionStarted = false;
 		}
 
-		else if (isFileSavedAs(choice))
+		else if (isCommandSaveAs(choice))
 		{
 			filePath = choice.substr(8, choice.size() - 8);
 			//saveImageInFile(image, filePath);
@@ -336,7 +350,7 @@ void showMenu()
 
 		}
 
-		else if (isFileRotated(choice) == 0)
+		else if (isCommandRotate(choice) == 0)
 		{
 
 		}
@@ -346,7 +360,7 @@ void showMenu()
 
 		}
 
-		else if (isFileAdded(choice) == 0)
+		else if (isCommandAdd(choice) == 0)
 		{
 
 		}
@@ -356,12 +370,12 @@ void showMenu()
 
 		}
 
-		else if (isSessionSwitched(choice) == 0)
+		else if (isCommandSwitchSession(choice) == 0)
 		{
 
 		}
 
-		else if (isImageCollage(choice) == 0)
+		else if (isCommandCollage(choice) == 0)
 		{
 
  }

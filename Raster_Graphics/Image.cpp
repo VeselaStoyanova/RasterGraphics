@@ -13,7 +13,7 @@ void Image::copy(const Image& other)
 
 void Image::erase()
 {
-	delete[] this->matrix;
+	delete this->matrix;
 }
 
 Image::Image()
@@ -108,16 +108,6 @@ string Image::getName() const
 	return this->name;
 }
 
-ostream& operator<<(ostream& output, const Image& image)
-{
-	output << image.fileFormat << endl;
-	output << image.maxColourValue << endl;
-	output << image.matrix << endl;
-	output << image.name << endl;
-
-	return output;
-}
-
 istream& operator>>(istream& input, Image& image)
 {
 	input >> image.fileFormat;
@@ -127,4 +117,14 @@ istream& operator>>(istream& input, Image& image)
 	input >> image.name;
 	
 	return input;
+}
+
+void Image::grayscale()
+{
+
+}
+
+ostream& Image::outputImage(ostream& output)
+{
+	return output;
 }

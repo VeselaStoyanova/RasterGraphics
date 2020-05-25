@@ -6,12 +6,14 @@ using namespace std;
 class Image
 {
 private:
+	void copy(const Image& other);
+	void erase();
+
+protected:
 	Matrix* matrix;
 	string fileFormat;
 	int maxColourValue;
 	string name;
-	void copy(const Image& other);
-	void erase();
 
 public:
 	Image();
@@ -33,7 +35,8 @@ public:
 	int getMaxColourValue() const;
 	string getName() const;
 
-	friend ostream& operator<<(ostream& output, const Image& image);
 	friend istream& operator>>(istream& input, Image& image);
 
+	virtual void grayscale();
+	virtual ostream& outputImage(ostream& output);
 };

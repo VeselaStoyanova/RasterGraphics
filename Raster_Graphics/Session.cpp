@@ -37,9 +37,9 @@ vector<Transformation> Session::getTransformations() const
 	return this->transformations;
 }
 
-void Session::addImage(Image image)
+void Session::addImage(Image* image)
 {
-	this->images.push_back(image);
+	this->images.push_back(*image);
 }
 
 void Session::addTransformation(Transformation transformation)

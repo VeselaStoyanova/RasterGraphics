@@ -7,11 +7,14 @@
 using namespace std;
 class Session
 {
+private:
 	int sessionID;
 	vector<Image>images;
 	vector<Transformation>transformations;
+
+public:
 	Session(int sessionID);
-	void addImage(Image image);
+	void addImage(Image* image);
 	void addTransformation(Transformation transformation);
 	void removeTransformation();
 
