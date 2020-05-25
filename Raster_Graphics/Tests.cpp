@@ -3,6 +3,20 @@
 #include "Common.h"
 using namespace std;
 
+//Съобщение, ако сме успяли да запазим информацията във файл.
+void printSuccessMessage(string filePath)
+{
+	cout << endl;
+	cout << "Successfully saved content in file: " << filePath << endl;
+}
+
+//Съобщение, ако не сме успяли да запазим информацията във файл.
+void printErrorMessage(string filePath)
+{
+	cerr << endl;
+	cerr << "There was a problem opening file with name: " << filePath << endl;
+}
+
 //Open file.
 void openFile(string filePath)
 {
@@ -29,16 +43,3 @@ void openFile(string filePath)
 	}
 }
 
-//Съобщение, ако сме успяли да запазим информацията във файл.
-void printSuccessMessage(string filePath)
-{
-	cout << endl;
-	cout << "Successfully saved content in file: " << filePath << endl;
-}
-
-//Съобщение, ако не сме успяли да запазим информацията във файл.
-void printErrorMessage(string filePath)
-{
-	cerr << endl;
-	cerr << "There was a problem opening file with name: " << filePath << endl;
-}

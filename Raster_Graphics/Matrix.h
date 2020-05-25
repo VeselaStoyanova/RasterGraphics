@@ -32,6 +32,6 @@ public:
 	int getColomns() const;
 	Pixel** getPixels() const;
 
-	friend ostream& operator<<(ostream& output, const Matrix& m);
-	friend istream& operator>>(istream& input, Matrix& m);
+	friend ostream& operator<<(ostream& output, const Matrix& matrix);
+	friend istream& operator>>(istream& input, Matrix& matrix);
 };

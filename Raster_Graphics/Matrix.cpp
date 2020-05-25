@@ -95,7 +95,7 @@ Matrix& Matrix::operator=(const Matrix& other)
 bool Matrix::operator==(const Matrix& other)
 {
 	return this->rows == other.rows &&
-		this->columns == other.columns;
+		this->columns == other.columns&&
 		this->pixels == other.pixels;
 }
 

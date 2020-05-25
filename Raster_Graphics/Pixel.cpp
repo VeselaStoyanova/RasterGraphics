@@ -41,9 +41,11 @@ Pixel& Pixel::operator=(const Pixel& other)
 
 ostream& operator<<(ostream& output, const Pixel& pixels)
 {
-	output << pixels.red << endl;
-	output << pixels.green << endl;
+	output << pixels.red << " ";
+	output << pixels.green << " ";
 	output << pixels.blue << endl;
+
+	return output;
 }
 
 istream& operator>>(istream& input, Pixel& pixels)
@@ -51,4 +53,6 @@ istream& operator>>(istream& input, Pixel& pixels)
 	input >> pixels.red;
 	input >> pixels.green;
 	input >> pixels.blue;
+
+	return input;
 }

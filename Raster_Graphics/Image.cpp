@@ -8,6 +8,7 @@ void Image::copy(const Image& other)
 	this->matrix = other.matrix;
 	this->fileFormat = other.fileFormat;
 	this->maxColourValue = other.maxColourValue;
+	this->name = other.name;
 }
 
 void Image::erase()
@@ -20,13 +21,15 @@ Image::Image()
 	this->matrix = 0;
 	this->fileFormat = '/0';
 	this->maxColourValue = 0;
+	this->name = '/0';
 }
 
-Image::Image(Matrix* matrix, string fileFormat, int maxColourValue)
+Image::Image(Matrix* matrix, string fileFormat, int maxColourValue, string name)
 {
 	this->matrix = matrix;
 	this->fileFormat = fileFormat;
 	this->maxColourValue = maxColourValue;
+	this->name = name;
 }
 
 Image::Image(const Image& other)
@@ -35,6 +38,7 @@ Image::Image(const Image& other)
 	this->matrix = other.matrix;
 	this->fileFormat = other.fileFormat;
 	this->maxColourValue = other.maxColourValue;
+	this->name = other.name;
 }
 
 Image& Image::operator=(const Image& other)
@@ -52,7 +56,8 @@ bool Image::operator==(const Image& other)
 {
 	return this->matrix == other.matrix &&
 		this->fileFormat == other.fileFormat &&
-		this->maxColourValue == other.maxColourValue;
+		this->maxColourValue == other.maxColourValue &&
+		this-> name == other.name;
 }
 
 Image::~Image()
@@ -77,6 +82,11 @@ void Image::setMaxColourValue(const int maxColourValue)
 	this->maxColourValue = maxColourValue;
 }
 
+void Image::setName(string name)
+{
+	this->name = name;
+}
+
 //Getters
 Matrix* Image::getMatrix() const
 {
@@ -93,11 +103,17 @@ int Image::getMaxColourValue() const
 	return this->maxColourValue;
 }
 
+string Image::getName() const
+{
+	return this->name;
+}
+
 ostream& operator<<(ostream& output, const Image& image)
 {
 	output << image.fileFormat << endl;
 	output << image.maxColourValue << endl;
 	output << image.matrix << endl;
+	output << image.name << endl;
 
 	return output;
 }
@@ -108,6 +124,7 @@ istream& operator>>(istream& input, Image& image)
 	input >> image.maxColourValue;
 	image.matrix = new Matrix();
 	input >> *image.matrix;
+	input >> image.name;
 	
 	return input;
 }

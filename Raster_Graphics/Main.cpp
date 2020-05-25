@@ -2,6 +2,7 @@
 #include <fstream>
 #include "Image.h"
 #include "Matrix.h"
+#include "CommandsExecutor.h"
 
 using namespace std;
 
@@ -23,11 +24,11 @@ void testMatrix()
 	}
 
 	//{ {1,2,3},{4,5,6}};
-	Matrix secondMatrix = Matrix(2,3, ary);
-	cout << secondMatrix << endl;
+	//Matrix secondMatrix = Matrix(2,3, ary);
+	//cout << secondMatrix << endl;
 
-	cin >> secondMatrix;
-	cout << secondMatrix << endl;
+	//cin >> secondMatrix;
+	//cout << secondMatrix << endl;
 }
 
 	//Съобщение, ако сме успяли да запазим информацията във файл.
@@ -72,5 +73,6 @@ void openFile()
 
 int main()
 {
-	testMatrix();
+	//testMatrix();
+	loadFileWithImage("PBMFile.txt");
 }
