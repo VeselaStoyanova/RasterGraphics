@@ -26,10 +26,10 @@ void Matrix::erase()
 {
 	for (int i = 0; i < rows; ++i)
 	{
-		delete this->pixels[i];
+		delete[] pixels[i];
 	}
 
-	delete this->pixels;
+	delete[] pixels;
 }
 
 Matrix::Matrix()
@@ -95,7 +95,7 @@ Matrix& Matrix::operator=(const Matrix& other)
 bool Matrix::operator==(const Matrix& other)
 {
 	return this->rows == other.rows &&
-		this->columns == other.columns&&
+		this->columns == other.columns &&
 		this->pixels == other.pixels;
 }
 
@@ -110,7 +110,7 @@ void Matrix::setRows(const int rows)
 	this->rows = rows;
 }
 
-void Matrix::setColomns(const int columns)
+void Matrix::setColumns(const int columns)
 {
 	this->columns = columns;
 }
@@ -132,7 +132,6 @@ void Matrix::setPixels(const Pixel **pixels)
 			this->pixels[i][j] = pixels[i][j];
 		}
 	}
-
 }
 
 //Getters
@@ -141,7 +140,7 @@ int Matrix::getRows() const
 	return this->rows;
 }
 
-int Matrix::getColomns() const
+int Matrix::getColumns() const
 {
 	return this->columns;
 }

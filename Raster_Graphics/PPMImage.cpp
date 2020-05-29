@@ -3,8 +3,8 @@
 
 using namespace std;
 
-PPMImage::PPMImage(Matrix* matrix, string fileFormat, int maxColourValue, string name) :
-	Image(matrix, fileFormat, maxColourValue, name)
+PPMImage::PPMImage(Matrix* matrix, string fileFormat, int maxColorValue, string name) :
+	Image(matrix, fileFormat, maxColorValue, name)
 {
 
 }
@@ -13,7 +13,7 @@ void PPMImage::grayscale()
 {
 	for (int i = 0; i < matrix->getRows(); i++)
 	{
-		for (int j = 0; j < matrix->getColomns(); j++)
+		for (int j = 0; j < matrix->getColumns(); j++)
 		{
 			Pixel* pixel = &matrix->getPixels()[i][j];
 			int r = pixel->getRed();
@@ -22,7 +22,7 @@ void PPMImage::grayscale()
 
 			if (!(r == g && r == b))
 			{
-				int grayscaleColor = (r + g + b) / 3;
+				int grayscaleColor = 0.30 * r + 0.59 * g + 0.11 * b;
 				pixel->setRed(grayscaleColor);
 				pixel->setGreen(grayscaleColor);
 				pixel->setBlue(grayscaleColor);
@@ -31,14 +31,16 @@ void PPMImage::grayscale()
 	}
 }
 
-ostream& PPMImage::outputImage(ostream& output) {
+ostream& PPMImage::outputImage(ostream& output)
+{
 		output << fileFormat << endl;
-		output << matrix->getColomns() << " ";
+		output << matrix->getColumns() << " ";
 		output << matrix->getRows() << endl;
-		output << maxColourValue << endl;
+		output << maxColorValue << endl;
 
-		for (int i = 0; i < matrix->getRows(); i++) {
-			for (int j = 0; j < matrix->getColomns(); j++)
+		for (int i = 0; i < matrix->getRows(); i++) 
+		{
+			for (int j = 0; j < matrix->getColumns(); j++)
 			{
 				output << matrix->getPixels()[i][j].getRed() << " ";
 				output << matrix->getPixels()[i][j].getGreen() << " ";
@@ -48,4 +50,43 @@ ostream& PPMImage::outputImage(ostream& output) {
 		}
 
 		return output;
+}
+
+void PPMImage::monochrome()
+{
+	for (int i = 0; i < matrix->getRows(); i++)
+	{
+		for (int j = 0; j < matrix->getColumns(); j++)
+		{
+			Pixel* pixel = &matrix->getPixels()[i][j];
+			int r = pixel->getRed();
+			int g = pixel->getGreen();
+			int b = pixel->getBlue();
+
+			if (!(r == g && r == b))
+			{
+				int monochromeColor = (r + g + b) / 3;
+				if (monochromeColor > 0 && monochromeColor <= 127)
+				{
+					//int newMonochromeColor = monochromeColor;
+					int newMonochromeColor = 0;
+					//monochromeColor = 0;
+					pixel->setRed(newMonochromeColor);
+					pixel->setGreen(newMonochromeColor);
+					pixel->setBlue(newMonochromeColor);
+				}
+
+				else if (monochromeColor > 127 && monochromeColor <= 255)
+				{
+					//int newMonochromeColor = monochromeColor;
+					int newMonochromeColor = 255;
+					//monochromeColor = 255;
+					pixel->setRed(newMonochromeColor);
+					pixel->setGreen(newMonochromeColor);
+					pixel->setBlue(newMonochromeColor);
+				}
+
+			}
+		}
+	}
 }

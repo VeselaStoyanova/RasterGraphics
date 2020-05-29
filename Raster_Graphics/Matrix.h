@@ -24,12 +24,12 @@ public:
 
 	//Setters
 	void setRows(const int rows);
-	void setColomns(const int columns);
+	void setColumns(const int columns);
 	void setPixels(const Pixel** pixels);
 
 	//Getters
 	int getRows() const;
-	int getColomns() const;
+	int getColumns() const;
 	Pixel** getPixels() const;
 
 	//friend ostream& operator<<(ostream& output, const Matrix& matrix);

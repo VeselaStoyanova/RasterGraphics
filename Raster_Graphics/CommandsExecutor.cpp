@@ -38,6 +38,7 @@ Matrix* constructMatrix(int rows, int columns, vector<int>numbers, string fileTy
 	Matrix* matrix = nullptr;
 	
 		Pixel** pixels = new Pixel * [rows];
+
 		for(int i = 0; i < rows; i++)
 		{
 			pixels[i] = new Pixel[columns];
@@ -53,6 +54,7 @@ Matrix* constructMatrix(int rows, int columns, vector<int>numbers, string fileTy
 					pixels[i][j] = Pixel(numbers[indexNumbers], numbers[indexNumbers + 1], numbers[indexNumbers + 2]);
 					indexNumbers += 3;
 				}
+
 				else 
 				{
 					pixels[i][j] = Pixel(numbers[indexNumbers], numbers[indexNumbers], numbers[indexNumbers]);
@@ -95,7 +97,7 @@ Image* createImageWithMatrix(Matrix* matrix, string fileType, int maxColor, stri
 	return image;
 }
 
-//Open file.
+//Load file.
 Image* loadFileWithImage(string filePath)
 {
 	ifstream inputFileStream;
@@ -113,7 +115,8 @@ Image* loadFileWithImage(string filePath)
 		int rows;
 		inputFileStream >> rows;
 
-		if (fileType.compare("P1") != 0) {
+		if (fileType.compare("P1") != 0)
+		{
 			inputFileStream >> maxColor;
 		}
 
@@ -137,7 +140,9 @@ Image* loadFileWithImage(string filePath)
 		matrix = constructMatrix(rows, columns, numbers, fileType);
 
 	}
-	else {
+
+	else
+	{
 		cout << "The file " << filePath << " was not found." << endl;
 	}
 
@@ -282,7 +287,7 @@ void showMenu()
 				Image* image = loadFileWithImage(filePath);
 				session.addImage(image);
 				sessions.push_back(session);
-				image->grayscale();
+				image->monochrome();
 				saveImageInFile(*image, filePath);
 				isSessionStarted = true;
 			}

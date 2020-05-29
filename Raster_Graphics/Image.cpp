@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include "Image.h"
 
 using namespace std;
@@ -7,7 +7,7 @@ void Image::copy(const Image& other)
 {
 	this->matrix = other.matrix;
 	this->fileFormat = other.fileFormat;
-	this->maxColourValue = other.maxColourValue;
+	this->maxColorValue = other.maxColorValue;
 	this->name = other.name;
 }
 
@@ -20,15 +20,15 @@ Image::Image()
 {
 	this->matrix = 0;
 	this->fileFormat = '/0';
-	this->maxColourValue = 0;
+	this->maxColorValue = 0;
 	this->name = '/0';
 }
 
-Image::Image(Matrix* matrix, string fileFormat, int maxColourValue, string name)
+Image::Image(Matrix* matrix, string fileFormat, int maxColorValue, string name)
 {
 	this->matrix = matrix;
 	this->fileFormat = fileFormat;
-	this->maxColourValue = maxColourValue;
+	this->maxColorValue = maxColorValue;
 	this->name = name;
 }
 
@@ -37,7 +37,7 @@ Image::Image(const Image& other)
 	this->copy(other);
 	this->matrix = other.matrix;
 	this->fileFormat = other.fileFormat;
-	this->maxColourValue = other.maxColourValue;
+	this->maxColorValue = other.maxColorValue;
 	this->name = other.name;
 }
 
@@ -56,7 +56,7 @@ bool Image::operator==(const Image& other)
 {
 	return this->matrix == other.matrix &&
 		this->fileFormat == other.fileFormat &&
-		this->maxColourValue == other.maxColourValue &&
+		this->maxColorValue == other.maxColorValue &&
 		this-> name == other.name;
 }
 
@@ -77,9 +77,9 @@ void Image::setFileFormat(string fileFormat)
 	this->fileFormat = fileFormat;
 }
 
-void Image::setMaxColourValue(const int maxColourValue)
+void Image::setMaxColorValue(const int maxColorValue)
 {
-	this->maxColourValue = maxColourValue;
+	this->maxColorValue = maxColorValue;
 }
 
 void Image::setName(string name)
@@ -98,9 +98,9 @@ string Image::getFileFormat() const
 	return this->fileFormat;
 }
 
-int Image::getMaxColourValue() const
+int Image::getMaxColorValue() const
 {
-	return this->maxColourValue;
+	return this->maxColorValue;
 }
 
 string Image::getName() const
@@ -111,7 +111,7 @@ string Image::getName() const
 istream& operator>>(istream& input, Image& image)
 {
 	input >> image.fileFormat;
-	input >> image.maxColourValue;
+	input >> image.maxColorValue;
 	image.matrix = new Matrix();
 	input >> *image.matrix;
 	input >> image.name;
@@ -127,4 +127,91 @@ void Image::grayscale()
 ostream& Image::outputImage(ostream& output)
 {
 	return output;
+}
+
+void Image::rotateLeftImage()
+{
+	int rows = matrix->getColumns();
+	int columns = matrix->getRows();
+	Pixel** rotatedMatrixPixels = new Pixel* [rows];
+	for (int i = 0; i < rows; ++i)
+	{
+		rotatedMatrixPixels[i] = new Pixel[columns];
+	}
+
+	for (int i = 0; i < matrix->getRows(); i++)
+	{
+		for (int j = 0; j < matrix->getColumns(); j++)
+		{
+			int newColumns = matrix->getColumns() - j - 1;
+			rotatedMatrixPixels[newColumns][i] = matrix->getPixels()[i][j] ;
+			cout << "New: " << i << j << endl;
+			cout << "Old: " << newColumns << i << endl;
+		}
+	}
+	
+	//delete matrix;
+	matrix = new Matrix(rows, columns, rotatedMatrixPixels);
+}
+
+void Image::rotateRightImage()
+{
+	int rows = matrix->getColumns();
+	int columns = matrix->getRows();
+	Pixel** rotatedMatrixPixels = new Pixel * [rows];
+	for (int i = 0; i < rows; ++i)
+	{
+		rotatedMatrixPixels[i] = new Pixel[columns];
+	}
+
+	for (int i = 0; i < matrix->getRows(); i++)
+	{
+		for (int j = 0; j < matrix->getColumns(); j++)
+		{
+			int newRows = matrix->getRows() - 1 - i;
+			rotatedMatrixPixels[j][newRows] = matrix->getPixels()[i][j];
+			cout << "New: " << i << j << endl;
+			cout << "Old: " << newRows << i << endl;
+		}
+	}
+
+	//delete matrix;
+	matrix = new Matrix(rows, columns, rotatedMatrixPixels);
+}
+
+void Image::negative()
+{
+	for (int i = 0; i < matrix->getRows(); i++)
+	{
+		for (int j = 0; j < matrix->getColumns(); j++)
+		{
+			Pixel* pixel = &matrix->getPixels()[i][j];
+			int r = pixel->getRed();
+			int g = pixel->getGreen();
+			int b = pixel->getBlue();
+
+			//if (!(r == g && r == b))
+			//{
+			//	int grayscaleColor = (r + g + b) / 3;
+			//	pixel->setRed(grayscaleColor);
+			//	pixel->setGreen(grayscaleColor);
+			//	pixel->setBlue(grayscaleColor);
+			//}
+			if (!(r == g && r == b))
+			{
+				int negativeRed = 255 - r;
+				int negativeGreen = 255 - g;
+				int negativeBlue = 255 - b;
+
+				pixel->setRed(negativeRed);
+				pixel->setGreen(negativeGreen);
+				pixel->setBlue(negativeBlue);
+			}
+		}
+	}
+}
+
+void Image::monochrome()
+{
+	
 }

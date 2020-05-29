@@ -7,6 +7,7 @@ Session::Session(int sessionID)
 	this->sessionID = sessionID;
 }
 
+//Setters
 void Session::setSessionID(const int sessionID)
 {
 	this->sessionID = sessionID;
@@ -22,6 +23,7 @@ void Session::setTransformations(vector<Transformation>transformations)
 	this->transformations = transformations;
 }
 
+//Getters
 int Session::getSessionID() const
 {
 	return this->sessionID;

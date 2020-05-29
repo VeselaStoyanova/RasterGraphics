@@ -28,6 +28,7 @@ void Pixel::erase()
 
 }
 
+//Setters
 void Pixel::setRed(const int red)
 {
 	this->red = red;
@@ -43,6 +44,7 @@ void Pixel::setBlue(const int blue)
 	this->blue = blue;
 }
 
+//Getters
 int Pixel::getRed() const
 {
 	return this->red;

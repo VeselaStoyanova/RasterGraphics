@@ -24,5 +24,5 @@ public:
 	int getGreen() const;
 	int getBlue() const;
 
-	friend istream& operator>>(istream& input, Pixel& m);
+	friend istream& operator>>(istream& input, Pixel& pixels);
 };

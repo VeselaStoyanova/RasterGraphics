@@ -1,2 +1,3 @@
-﻿  Matrix.cpp
+﻿  PPMImage.cpp
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\PPMImage.cpp(25,24): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
   Raster_Graphics.vcxproj -> D:\FMI\Github\Raster_Graphics\Debug\Raster_Graphics.exe

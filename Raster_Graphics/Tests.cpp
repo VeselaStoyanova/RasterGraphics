@@ -17,7 +17,7 @@ void printErrorMessage(string filePath)
 	cerr << "There was a problem opening file with name: " << filePath << endl;
 }
 
-//Open file.
+//Отваряне на файл.
 void openFile(string filePath)
 {
 	ifstream inputFileStream;
