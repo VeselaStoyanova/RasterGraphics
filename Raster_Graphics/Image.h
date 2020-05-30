@@ -39,7 +39,7 @@ public:
 	void rotateLeftImage();
 	void rotateRightImage();
 	void negative();
-	void monochrome();
+	virtual void monochrome();
 
 	virtual void grayscale();
 	virtual ostream& outputImage(ostream& output);

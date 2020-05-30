@@ -63,30 +63,24 @@ void PPMImage::monochrome()
 			int g = pixel->getGreen();
 			int b = pixel->getBlue();
 
-			if (!(r == g && r == b))
+			int monochromeColor = (r + g + b) / 3;
+
+			if (monochromeColor > 0 && monochromeColor <= maxColorValue / 2)
 			{
-				int monochromeColor = (r + g + b) / 3;
-				if (monochromeColor > 0 && monochromeColor <= 127)
-				{
-					//int newMonochromeColor = monochromeColor;
-					int newMonochromeColor = 0;
-					//monochromeColor = 0;
-					pixel->setRed(newMonochromeColor);
-					pixel->setGreen(newMonochromeColor);
-					pixel->setBlue(newMonochromeColor);
-				}
-
-				else if (monochromeColor > 127 && monochromeColor <= 255)
-				{
-					//int newMonochromeColor = monochromeColor;
-					int newMonochromeColor = 255;
-					//monochromeColor = 255;
-					pixel->setRed(newMonochromeColor);
-					pixel->setGreen(newMonochromeColor);
-					pixel->setBlue(newMonochromeColor);
-				}
-
+				monochromeColor = 0;
+				pixel->setRed(monochromeColor);
+				pixel->setGreen(monochromeColor);
+				pixel->setBlue(monochromeColor);
 			}
+
+			else if (monochromeColor > maxColorValue / 2 && monochromeColor <= maxColorValue)
+			{
+				monochromeColor = maxColorValue;
+				pixel->setRed(monochromeColor);
+				pixel->setGreen(monochromeColor);
+				pixel->setBlue(monochromeColor);
+			}
+			
 		}
 	}
 }

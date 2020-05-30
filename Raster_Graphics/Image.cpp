@@ -190,23 +190,13 @@ void Image::negative()
 			int g = pixel->getGreen();
 			int b = pixel->getBlue();
 
-			//if (!(r == g && r == b))
-			//{
-			//	int grayscaleColor = (r + g + b) / 3;
-			//	pixel->setRed(grayscaleColor);
-			//	pixel->setGreen(grayscaleColor);
-			//	pixel->setBlue(grayscaleColor);
-			//}
-			if (!(r == g && r == b))
-			{
-				int negativeRed = 255 - r;
-				int negativeGreen = 255 - g;
-				int negativeBlue = 255 - b;
+			int negativeRed = maxColorValue - r;
+			int negativeGreen = maxColorValue - g;
+			int negativeBlue = maxColorValue - b;
 
-				pixel->setRed(negativeRed);
-				pixel->setGreen(negativeGreen);
-				pixel->setBlue(negativeBlue);
-			}
+			pixel->setRed(negativeRed);
+			pixel->setGreen(negativeGreen);
+			pixel->setBlue(negativeBlue);
 		}
 	}
 }

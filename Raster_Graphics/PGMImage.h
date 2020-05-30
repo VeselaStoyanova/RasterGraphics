@@ -8,4 +8,5 @@ class PGMImage : public Image
 public:
 	PGMImage(Matrix* matrix, string fileFormat, int maxColorValue, string name);
 	ostream& outputImage(ostream& output);
+	void monochrome();
 };
