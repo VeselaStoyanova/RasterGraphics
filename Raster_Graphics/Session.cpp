@@ -13,7 +13,7 @@ void Session::setSessionID(const int sessionID)
 	this->sessionID = sessionID;
 }
 
-void Session::setImages(vector<Image>images)
+void Session::setImages(vector<Image*>images)
 {
 	this->images = images;
 }
@@ -29,7 +29,7 @@ int Session::getSessionID() const
 	return this->sessionID;
 }
 
-vector<Image> Session::getImages()const
+vector<Image*> Session::getImages()const
 {
 	return this->images;
 }
@@ -41,7 +41,7 @@ vector<Transformation> Session::getTransformations() const
 
 void Session::addImage(Image* image)
 {
-	this->images.push_back(*image);
+	this->images.push_back(image);
 }
 
 void Session::addTransformation(Transformation transformation)
@@ -51,5 +51,28 @@ void Session::addTransformation(Transformation transformation)
 
 void Session::removeTransformation()
 {
-	this->transformations.pop_back();
+	if (!transformations.empty())
+	{
+		this->transformations.pop_back();
+	}
+}
+
+void Session::print()
+{
+	cout << "The session ID is: " << sessionID << endl;
+	cout << "The images are: " << endl;
+	for (int i = 0; i < images.size(); i++)
+	{
+		cout << images[i]->getName() << endl;
+	}
+	cout << "The transformations are: " << endl;
+	for (int i = 0; i < transformations.size(); i++)
+	{
+		cout << transformations[i] << endl;
+	}
+}
+
+void Session::removeAllTransformations()
+{
+	this->transformations.clear();
 }

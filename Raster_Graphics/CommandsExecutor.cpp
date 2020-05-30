@@ -1,14 +1,4 @@
-﻿#include <iostream>
-#include <fstream>
-#include <cstdlib>
-#include <string>
-#include <vector>
-#include "CommandsExecutor.h"
-#include "Image.h"
-#include "Session.h"
-#include "PBMImage.h"
-#include "PGMImage.h"
-#include "PPMImage.h"
+﻿#include "CommandsExecutor.h"
 using namespace std;
 
 void showHelp()
@@ -36,41 +26,33 @@ void showAdvancedHelp()
 Matrix* constructMatrix(int rows, int columns, vector<int>numbers, string fileType)
 {
 	Matrix* matrix = nullptr;
-	
-		Pixel** pixels = new Pixel * [rows];
 
-		for(int i = 0; i < rows; i++)
-		{
-			pixels[i] = new Pixel[columns];
-		}
+	Pixel** pixels = new Pixel * [rows];
 
-		int indexNumbers = 0;
-		for (int i = 0; i < rows; i++)
+	for (int i = 0; i < rows; i++)
+	{
+		pixels[i] = new Pixel[columns];
+	}
+
+	int indexNumbers = 0;
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < columns; j++)
 		{
-			for(int j = 0; j < columns; j++)
+			if (fileType.compare("P3") == 0)
 			{
-				if (fileType.compare("P3") == 0)
-				{
-					pixels[i][j] = Pixel(numbers[indexNumbers], numbers[indexNumbers + 1], numbers[indexNumbers + 2]);
-					indexNumbers += 3;
-				}
+				pixels[i][j] = Pixel(numbers[indexNumbers], numbers[indexNumbers + 1], numbers[indexNumbers + 2]);
+				indexNumbers += 3;
+			}
 
-				else 
-				{
-					pixels[i][j] = Pixel(numbers[indexNumbers], numbers[indexNumbers], numbers[indexNumbers]);
-					indexNumbers += 1;
-				}
+			else
+			{
+				pixels[i][j] = Pixel(numbers[indexNumbers], numbers[indexNumbers], numbers[indexNumbers]);
+				indexNumbers += 1;
 			}
 		}
+	}
 
-		/*for (int i = 0; i < rows; i++)
-		{
-			for (int j = 0; j < columns; j++)
-			{
-				cout << pixels[i][j];
-			}
-		}*/
-	
 	matrix = new Matrix(rows, columns, pixels);
 
 	return matrix;
@@ -170,9 +152,14 @@ bool isCommandSaveAs(string choice)
 	return choice.size() > 8 && choice.substr(0, 8).compare("save as ") == 0;
 }
 
-bool isCommandRotate(string choice)
+bool isCommandRotateLeft(string choice)
 {
-	return choice.size() > 7 && choice.substr(0, 7).compare("rotate ") == 0;
+	return choice.compare("rotate left") == 0;
+}
+
+bool isCommandRotateRight(string choice)
+{
+	return choice.compare("rotate right") == 0;
 }
 
 bool isCommandAdd(string choice)
@@ -182,7 +169,7 @@ bool isCommandAdd(string choice)
 
 bool isCommandSessionInfo(string choice)
 {
-	return choice.size() > 12 && choice.substr(0, 12).compare("session info") == 0;
+	return choice.compare("session info") == 0;
 }
 
 bool isCommandSwitchSession(string choice)
@@ -241,8 +228,8 @@ string showAdvancedMenu()
 
 	while (choice.compare("close") != 0 && choice.compare("save") != 0 && !isCommandSaveAs(choice)
 		&& choice.compare("help") != 0 && choice.compare("exit") != 0 && choice.compare("grayscale") != 0
-		&& choice.compare("monochrome") != 0 && choice.compare("negative") != 0 && !isCommandRotate(choice)
-		&& choice.compare("undo") != 0 && !isCommandAdd(choice) && !isCommandSessionInfo(choice)
+		&& choice.compare("monochrome") != 0 && choice.compare("negative") != 0 && !isCommandRotateLeft(choice)
+		&& !isCommandRotateRight(choice) && choice.compare("undo") != 0 && !isCommandAdd(choice) && !isCommandSessionInfo(choice)
 		&& !isCommandSwitchSession(choice) && !isCommandCollage(choice));
 
 	return choice;
@@ -260,12 +247,54 @@ string showParticularMenu(bool isFileLoad)
 		return showAdvancedMenu();
 	}
 }
+void addTransformationToCurrentSession(vector <Session>& sessions, int currentSessionID, Transformation transformation)
+{
+	for (int i = 0; i < sessions.size(); i++)
+	{
+		if (currentSessionID == sessions[i].getSessionID())
+		{
+			sessions[i].addTransformation(transformation);
+		}
+	}
+}
+
+void applyTranformationsToCurrentSession(vector <Session>& sessions, int currentSessionID, string firstFileName = "")
+{
+	for (int i = 0; i < sessions.size(); i++)
+	{
+		if (currentSessionID == sessions[i].getSessionID())
+		{
+			for (int j = 0; j < sessions[i].getImages().size(); j++)
+			{
+				for (int k = 0; k < sessions[i].getTransformations().size(); k++)
+				{
+					switch (sessions[i].getTransformations()[k])
+					{
+					case Transformation::GRAYSCALE: sessions[i].getImages()[j]->grayscale(); break;
+					case Transformation::MONOCHROME: sessions[i].getImages()[j]->monochrome(); break;
+					case Transformation::NEGATIVE: sessions[i].getImages()[j]->negative(); break;
+					case Transformation::ROTATE_LEFT: sessions[i].getImages()[j]->rotateLeftImage(); break;
+					case Transformation::ROTATE_RIGHT: sessions[i].getImages()[j]->rotateRightImage(); break;
+					}
+				}
+				string filePath = sessions[i].getImages()[j]->getName();
+
+				if (j == 0 && firstFileName.compare("") != 0)
+				{
+					filePath = firstFileName;
+				}
+				saveImageInFile(*sessions[i].getImages()[j], filePath);
+			}
+			sessions[i].removeAllTransformations();
+		}
+	}
+}
 
 void showMenu()
 {
 	bool isSessionStarted = false;
 	vector<Session> sessions;
-	string filePath;
+	int currentSessionID = 0;
 	string choice;
 	int sessionID = 1;
 
@@ -275,7 +304,7 @@ void showMenu()
 
 		if (isCommandLoad(choice))
 		{
-			filePath = choice.substr(5, choice.size() - 5);
+			string filePath = choice.substr(5, choice.size() - 5);
 
 			//Проверяваме дали името на файла се състои само от интервали
 			bool isFileNameNotOnlyIntervals = filePath.find_first_not_of(' ') != std::string::npos;
@@ -283,12 +312,11 @@ void showMenu()
 			{
 				Session session = Session(sessionID);
 				cout << "Session with ID: " << sessionID << " started" << endl;
+				currentSessionID = sessionID;
 				sessionID++;
 				Image* image = loadFileWithImage(filePath);
 				session.addImage(image);
 				sessions.push_back(session);
-				image->monochrome();
-				saveImageInFile(*image, filePath);
 				isSessionStarted = true;
 			}
 
@@ -322,68 +350,117 @@ void showMenu()
 
 		else if (choice.compare("save") == 0)
 		{
-			//saveImageInFile(image, filePath);
-			cout << "Successfully saved file." << endl;
+			applyTranformationsToCurrentSession(sessions, currentSessionID);
+			cout << "Successfully saved files in the session." << endl;
 			isSessionStarted = false;
 		}
 
 		else if (isCommandSaveAs(choice))
 		{
-			filePath = choice.substr(8, choice.size() - 8);
-			//saveImageInFile(image, filePath);
-			cout << "Successfully saved another file." << endl;
+			string filePath = choice.substr(8, choice.size() - 8);
+			applyTranformationsToCurrentSession(sessions, currentSessionID, filePath);
+			cout << "Successfully saved files in the session and the first image is saved under path " << filePath << "." << endl;
 			isSessionStarted = false;
-		}
-
-		else if (choice.compare("help") == 0)
-		{
-			showAdvancedHelp();
 		}
 
 		else if (choice.compare("grayscale") == 0)
 		{
-
+			addTransformationToCurrentSession(sessions, currentSessionID, GRAYSCALE);
 		}
 
 		else if (choice.compare("monochrome") == 0)
 		{
-
+			addTransformationToCurrentSession(sessions, currentSessionID, MONOCHROME);
 		}
 
 		else if (choice.compare("negative") == 0)
 		{
-
+			addTransformationToCurrentSession(sessions, currentSessionID, NEGATIVE);
 		}
 
-		else if (isCommandRotate(choice) == 0)
+		else if (isCommandRotateLeft(choice))
 		{
+			addTransformationToCurrentSession(sessions, currentSessionID, ROTATE_LEFT);
+		}
 
+		else if (isCommandRotateRight(choice))
+		{
+			addTransformationToCurrentSession(sessions, currentSessionID, ROTATE_RIGHT);
 		}
 
 		else if (choice.compare("undo") == 0)
 		{
+			for (int i = 0; i < sessions.size(); i++)
+			{
+				if (currentSessionID == sessions[i].getSessionID())
+				{
+					sessions[i].removeTransformation();
+				}
+			}
+		}
+
+		else if (isCommandAdd(choice))
+		{
+			string filePath = choice.substr(4, choice.size() - 4);
+
+			//Проверяваме дали името на файла се състои само от интервали
+			bool isFileNameNotOnlyIntervals = filePath.find_first_not_of(' ') != std::string::npos;
+			if (isFileNameNotOnlyIntervals)
+			{
+				for (int i = 0; i < sessions.size(); i++)
+				{
+					if (currentSessionID == sessions[i].getSessionID())
+					{
+						Image* image = loadFileWithImage(filePath);
+						sessions[i].addImage(image);
+
+					}
+				}
+			}
+
+			else
+			{
+				cout << "Error, not a valid name!" << endl;
+			}
 
 		}
 
-		else if (isCommandAdd(choice) == 0)
-		{
 
+		else if (isCommandSessionInfo(choice))
+		{
+			for (int i = 0; i < sessions.size(); i++)
+			{
+				if (currentSessionID == sessions[i].getSessionID())
+				{
+					sessions[i].print();
+				}
+			}
 		}
 
-		else if (isCommandSessionInfo(choice) == 0)
+		else if (isCommandSwitchSession(choice))
 		{
+			string newSessionIDString = choice.substr(7, choice.size() - 7);
+			int newSessionID = stoi(newSessionIDString);
+			bool wasSessionFound = false;
+			for (int i = 0; i < sessions.size(); i++)
+			{
+				if (newSessionID == sessions[i].getSessionID())
+				{
+					currentSessionID = newSessionID;
+					wasSessionFound = true;
+				}
+			}
 
+			if (wasSessionFound == false)
+			{
+				cout << "The session with ID " << newSessionID << " was not found. " << endl;
+			}
 		}
 
-		else if (isCommandSwitchSession(choice) == 0)
+		else if (isCommandCollage(choice))
 		{
-
+			cout << "Not supported." << endl;
 		}
-
-		else if (isCommandCollage(choice) == 0)
-		{
-
- }
 
 		else
 		{

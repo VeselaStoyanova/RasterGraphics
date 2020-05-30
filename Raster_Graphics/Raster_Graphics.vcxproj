@@ -148,6 +148,7 @@
     <ClCompile Include="Pixel.cpp" />
     <ClCompile Include="PPMImage.cpp" />
     <ClCompile Include="Tests.cpp" />
+    <ClCompile Include="Transformation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandsExecutor.h" />

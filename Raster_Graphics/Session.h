@@ -9,7 +9,7 @@ class Session
 {
 private:
 	int sessionID;
-	vector<Image>images;
+	vector<Image*>images;
 	vector<Transformation>transformations;
 
 public:
@@ -19,9 +19,11 @@ public:
 	void removeTransformation();
 
 	void setSessionID(const int sessionID);
-	void setImages(vector<Image>images);
+	void setImages(vector<Image*>images);
 	void setTransformations(vector<Transformation>transformations);
 	int getSessionID() const;
-	vector<Image> getImages()const;
+	vector<Image*> getImages()const;
 	vector<Transformation> getTransformations() const;
+	void print();
+	void removeAllTransformations();
 };

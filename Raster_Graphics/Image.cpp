@@ -145,12 +145,10 @@ void Image::rotateLeftImage()
 		{
 			int newColumns = matrix->getColumns() - j - 1;
 			rotatedMatrixPixels[newColumns][i] = matrix->getPixels()[i][j] ;
-			cout << "New: " << i << j << endl;
-			cout << "Old: " << newColumns << i << endl;
 		}
 	}
 	
-	//delete matrix;
+	delete matrix;
 	matrix = new Matrix(rows, columns, rotatedMatrixPixels);
 }
 
@@ -170,12 +168,10 @@ void Image::rotateRightImage()
 		{
 			int newRows = matrix->getRows() - 1 - i;
 			rotatedMatrixPixels[j][newRows] = matrix->getPixels()[i][j];
-			cout << "New: " << i << j << endl;
-			cout << "Old: " << newRows << i << endl;
 		}
 	}
 
-	//delete matrix;
+	delete matrix;
 	matrix = new Matrix(rows, columns, rotatedMatrixPixels);
 }
 

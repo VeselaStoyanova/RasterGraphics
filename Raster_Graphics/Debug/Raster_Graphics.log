@@ -1,2 +1,4 @@
-﻿  CommandsExecutor.cpp
+﻿  Session.cpp
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\Session.cpp(64,20): warning C4018: '<': signed/unsigned mismatch
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\Session.cpp(69,20): warning C4018: '<': signed/unsigned mismatch
   Raster_Graphics.vcxproj -> D:\FMI\Github\Raster_Graphics\Debug\Raster_Graphics.exe

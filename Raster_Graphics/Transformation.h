@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+using namespace std;
 
 enum Transformation
 {
@@ -8,3 +10,5 @@ enum Transformation
 	ROTATE_LEFT,
 	ROTATE_RIGHT
 };
+
+ostream& operator<<(ostream& output, Transformation transformation);

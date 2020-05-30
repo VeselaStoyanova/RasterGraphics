@@ -1,7 +1,13 @@
 #pragma once
 #include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <string>
 #include <vector>
-#include "Image.h"
+#include "Session.h"
+#include "PBMImage.h"
+#include "PGMImage.h"
+#include "PPMImage.h"
 using namespace std;
 
 void showHelp();
@@ -13,7 +19,8 @@ Image* loadFileWithImage(string filePath);
 void saveImageInFile(Image& image, string filePath);
 bool isCommandLoad(string choice);
 bool isCommandSaveAs(string choice);
-bool isCommandRotate(string choice);
+bool isCommandRotateLeft(string choice);
+bool isCommandRotateRight(string choice);
 bool isCommandAdd(string choice);
 bool isCommandSessionInfo(string choice);
 bool isCommandSwitchSession(string choice);
