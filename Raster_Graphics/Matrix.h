@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include "Common.h"
 #include "Pixel.h"
 using namespace std;
 
@@ -32,6 +31,5 @@ public:
 	int getColumns() const;
 	Pixel** getPixels() const;
 
-	//friend ostream& operator<<(ostream& output, const Matrix& matrix);
 	friend istream& operator>>(istream& input, Matrix& matrix);
 };

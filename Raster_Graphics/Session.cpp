@@ -1,5 +1,5 @@
-#include <iostream>
 #include "Session.h"
+
 using namespace std;
 
 Session::Session(int sessionID)
@@ -61,11 +61,14 @@ void Session::print()
 {
 	cout << "The session ID is: " << sessionID << endl;
 	cout << "The images are: " << endl;
+
 	for (int i = 0; i < images.size(); i++)
 	{
 		cout << images[i]->getName() << endl;
 	}
+
 	cout << "The transformations are: " << endl;
+
 	for (int i = 0; i < transformations.size(); i++)
 	{
 		cout << transformations[i] << endl;

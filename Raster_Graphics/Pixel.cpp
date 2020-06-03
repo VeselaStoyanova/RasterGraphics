@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Pixel.h"
 using namespace std;
 
@@ -21,11 +20,6 @@ void Pixel::copy(const Pixel& other)
 	this->red = other.red;
 	this->green = other.green;
 	this->blue = other.blue;
-}
-
-void Pixel::erase()
-{
-
 }
 
 //Setters
@@ -64,7 +58,6 @@ Pixel& Pixel::operator=(const Pixel& other)
 {
 	if (this != &other)
 	{
-		this->erase();
 		this->copy(other);
 	}
 

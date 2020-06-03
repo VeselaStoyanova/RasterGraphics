@@ -20,14 +20,25 @@ void showAdvancedHelp()
 	cout << "Save As			saves the currently open file in  <file>" << endl;
 	cout << "Help			prints this information" << endl;
 	cout << "Exit			exits the program" << endl;
+	cout << "Grayscale		makes the color images grayscale" << endl;
+	cout << "Monochrome		makes the color images black and white" << endl;
+	cout << "Negative		makes the images negative" << endl;
+	cout << "Rotate <direction>	rotate the image(left or right)" << endl;
+	cout << "Undo			removes the last transformation" << endl;
+	cout << "Add image		adds image to the current session" << endl;
+	cout << "Session info		gives an information for the current session" << endl;
+	cout << "Switch <session>	switches to another session" << endl;
+	cout << "Collage <direction><image1><image2><outimage>	makes a collage from the images" << endl;
 	cout << endl;
 }
 
+//Конструираме матрица.
+//Задаваме брой на редове, брой на колони, числата в матрицата и типът на файла.
 Matrix* constructMatrix(int rows, int columns, vector<int>numbers, string fileType)
 {
 	Matrix* matrix = nullptr;
 
-	Pixel** pixels = new Pixel * [rows];
+	Pixel** pixels = new Pixel *[rows];
 
 	for (int i = 0; i < rows; i++)
 	{
@@ -39,6 +50,8 @@ Matrix* constructMatrix(int rows, int columns, vector<int>numbers, string fileTy
 	{
 		for (int j = 0; j < columns; j++)
 		{
+			//При "P3" на един пиксел отговарят 3 стойности, а при останалите 2 вида на един пиксел отговаря 1 стойност.
+			//При конструирането на пиксел при "P3" използваме 3 числа като всяко отговаря съответно за red, green, blue.
 			if (fileType.compare("P3") == 0)
 			{
 				pixels[i][j] = Pixel(numbers[indexNumbers], numbers[indexNumbers + 1], numbers[indexNumbers + 2]);
@@ -58,9 +71,11 @@ Matrix* constructMatrix(int rows, int columns, vector<int>numbers, string fileTy
 	return matrix;
 }
 
+//Функция, чрез която създаваме изображение от матрица.
 Image* createImageWithMatrix(Matrix* matrix, string fileType, int maxColor, string filePath)
 {
 	Image* image = nullptr;
+	//Сравняваме типът на файла и създаваме съответния вид изображение.
 	if (fileType.compare("P1") == 0)
 	{
 		image = new PBMImage(matrix, fileType, maxColor, filePath);
@@ -79,7 +94,7 @@ Image* createImageWithMatrix(Matrix* matrix, string fileType, int maxColor, stri
 	return image;
 }
 
-//Load file.
+//Функция, която зарежда файл.
 Image* loadFileWithImage(string filePath)
 {
 	ifstream inputFileStream;
@@ -90,19 +105,28 @@ Image* loadFileWithImage(string filePath)
 
 	if (inputFileStream.is_open())
 	{
+		//Въвеждаме типът на файла.
 		inputFileStream >> fileType;
 
 		int columns;
+		//Въвеждаме броят на колоните.
 		inputFileStream >> columns;
 		int rows;
+		//Въвеждаме броят на редовете.
 		inputFileStream >> rows;
 
+		//Само при файловият формат "P1" нямаме максимален цвят.
 		if (fileType.compare("P1") != 0)
 		{
+			//Ако файловият формат е "Р2" или "Р3" то въвеждаме и максимален цвят.
 			inputFileStream >> maxColor;
 		}
 
+		//Броят на числата в матрицата е борят на редовете * броят на колоните.
 		int count = rows * columns;
+
+		//Броят на числата в матрицата при файловия формат "Р3" са брой на редове * брой на колони * 3
+		//Тъй като за всеки пиксел от матрицата отговарят по 3 стойности.
 		if (fileType.compare("P3") == 0)
 		{
 			count = count * 3;
@@ -120,7 +144,6 @@ Image* loadFileWithImage(string filePath)
 		}
 
 		matrix = constructMatrix(rows, columns, numbers, fileType);
-
 	}
 
 	else
@@ -131,6 +154,7 @@ Image* loadFileWithImage(string filePath)
 	return createImageWithMatrix(matrix, fileType, maxColor, filePath);
 }
 
+//Запазваме изображение във файл.
 void saveImageInFile(Image& image, string filePath)
 {
 	ofstream outputFileStream;
@@ -142,41 +166,48 @@ void saveImageInFile(Image& image, string filePath)
 	}
 }
 
+//Проверяваме дали въведената команда от потребителя е load като сравняваме string-а, който е въвел потребителя с load.
 bool isCommandLoad(string choice)
 {
 	return choice.size() > 5 && choice.substr(0, 5).compare("load ") == 0;
 }
 
+//Проверяваме дали въведената команда от потребителя е save as.
 bool isCommandSaveAs(string choice)
 {
 	return choice.size() > 8 && choice.substr(0, 8).compare("save as ") == 0;
 }
 
+//Проверяваме дали въведената команда от потребителя е rotate left.
 bool isCommandRotateLeft(string choice)
 {
 	return choice.compare("rotate left") == 0;
 }
 
+//Проверяваме дали въведената команда от потребителя е rotate right.
 bool isCommandRotateRight(string choice)
 {
 	return choice.compare("rotate right") == 0;
 }
-
+//Проверяваме дали въведената команда от потребителя е add.
 bool isCommandAdd(string choice)
 {
 	return choice.size() > 4 && choice.substr(0, 4).compare("add ") == 0;
 }
 
+//Проверяваме дали въведената команда от потребителя e session info.
 bool isCommandSessionInfo(string choice)
 {
 	return choice.compare("session info") == 0;
 }
 
+//Проверяваме дали въведената команда от потребителя е switch session.
 bool isCommandSwitchSession(string choice)
 {
 	return choice.size() > 7 && choice.substr(0, 7).compare("switch ") == 0;
 }
 
+//Проверяваме дали въведената команда от потребителя е collage.
 bool isCommandCollage(string choice)
 {
 	return choice.size() > 8 && choice.substr(0, 8).compare("collage ") == 0;
@@ -193,6 +224,7 @@ string showStartMenu()
 		cout << "help" << endl;
 		cout << "exit" << endl;
 		getline(cin, choice);
+		cout << endl;
 	}
 
 	while (!isCommandLoad(choice) && choice.compare("help") != 0 && choice.compare("exit") != 0);
@@ -224,8 +256,10 @@ string showAdvancedMenu()
 		cout << "switch <session>" << endl;
 		cout << "collage <direction> <image1> <image2> <outimage>" << endl;
 		getline(cin, choice);
+		cout << endl;
 	}
-
+	
+	//Валидиране на въведената команда от потребителя.
 	while (choice.compare("close") != 0 && choice.compare("save") != 0 && !isCommandSaveAs(choice)
 		&& choice.compare("help") != 0 && choice.compare("exit") != 0 && choice.compare("grayscale") != 0
 		&& choice.compare("monochrome") != 0 && choice.compare("negative") != 0 && !isCommandRotateLeft(choice)
@@ -235,6 +269,9 @@ string showAdvancedMenu()
 	return choice;
 }
 
+//Проверяваме дали имаме зареден файл.
+//Ако нямаме, то отваряме първоначалното меню.
+//Ако имаме, то отваряме advanced меню.
 string showParticularMenu(bool isFileLoad)
 {
 	if (!isFileLoad)
@@ -247,10 +284,13 @@ string showParticularMenu(bool isFileLoad)
 		return showAdvancedMenu();
 	}
 }
+
+//Функция, чрез която добавяме трансформация към сесията.
 void addTransformationToCurrentSession(vector <Session>& sessions, int currentSessionID, Transformation transformation)
 {
 	for (int i = 0; i < sessions.size(); i++)
 	{
+		//Ако идентификационният номер на сесията и сегашният идентификационен номер съвпадат, то фобавяме нова трансформация.
 		if (currentSessionID == sessions[i].getSessionID())
 		{
 			sessions[i].addTransformation(transformation);
@@ -258,6 +298,7 @@ void addTransformationToCurrentSession(vector <Session>& sessions, int currentSe
 	}
 }
 
+//Извършване на трансформацията.
 void applyTranformationsToCurrentSession(vector <Session>& sessions, int currentSessionID, string firstFileName = "")
 {
 	for (int i = 0; i < sessions.size(); i++)
@@ -279,12 +320,16 @@ void applyTranformationsToCurrentSession(vector <Session>& sessions, int current
 				}
 				string filePath = sessions[i].getImages()[j]->getName();
 
+				//Използваме тази функция за командите save и save as.
+				//Ако имаме името на файла е различно от празен string, то значи командата ни е save as.
 				if (j == 0 && firstFileName.compare("") != 0)
 				{
 					filePath = firstFileName;
 				}
+
 				saveImageInFile(*sessions[i].getImages()[j], filePath);
 			}
+
 			sessions[i].removeAllTransformations();
 		}
 	}
@@ -320,6 +365,7 @@ void showMenu()
 				isSessionStarted = true;
 			}
 
+			//Приемаме, че име, състоящо се само от интервали, е невалидно.
 			else
 			{
 				cout << "Error, not a valid name!" << endl;
@@ -390,6 +436,8 @@ void showMenu()
 
 		else if (choice.compare("undo") == 0)
 		{
+			//Проверяваме дали въведената команда е undo.
+			//Ако е, то премахваме последната трансформация.
 			for (int i = 0; i < sessions.size(); i++)
 			{
 				if (currentSessionID == sessions[i].getSessionID())
@@ -413,7 +461,6 @@ void showMenu()
 					{
 						Image* image = loadFileWithImage(filePath);
 						sessions[i].addImage(image);
-
 					}
 				}
 			}
@@ -422,12 +469,12 @@ void showMenu()
 			{
 				cout << "Error, not a valid name!" << endl;
 			}
-
 		}
-
 
 		else if (isCommandSessionInfo(choice))
 		{
+		//Обхождаме векторът от сесии.
+		//Извеждаме информация за сесията, в която се намираме.
 			for (int i = 0; i < sessions.size(); i++)
 			{
 				if (currentSessionID == sessions[i].getSessionID())
@@ -442,6 +489,7 @@ void showMenu()
 			string newSessionIDString = choice.substr(7, choice.size() - 7);
 			int newSessionID = stoi(newSessionIDString);
 			bool wasSessionFound = false;
+			//Обхождаме векторът от сесии.
 			for (int i = 0; i < sessions.size(); i++)
 			{
 				if (newSessionID == sessions[i].getSessionID())
@@ -451,6 +499,7 @@ void showMenu()
 				}
 			}
 
+			//Ако не намерим сесия с въведения идентификационен номер, то се извежда съобщение за грешка.
 			if (wasSessionFound == false)
 			{
 				cout << "The session with ID " << newSessionID << " was not found. " << endl;

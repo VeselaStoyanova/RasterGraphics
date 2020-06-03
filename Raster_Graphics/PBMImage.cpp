@@ -1,5 +1,4 @@
-#include <iostream>
-#include "PBMImage.h"
+﻿#include "PBMImage.h"
 
 using namespace std;
 
@@ -8,6 +7,8 @@ PBMImage::PBMImage(Matrix* matrix, string fileFormat, int maxColorValue, string 
 {
 }
 
+//За формат PBM няма значение кой цвят от клас Pixel ще вземем
+//Тъй като представлява изображения само с черни и бели пиксели.
 ostream& PBMImage::outputImage(ostream& output)
 {
 	output << fileFormat << endl;
@@ -24,5 +25,4 @@ ostream& PBMImage::outputImage(ostream& output)
 	}
 
 	return output;
-	
 }

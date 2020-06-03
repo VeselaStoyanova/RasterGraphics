@@ -9,7 +9,6 @@ private:
 	int green;
 	int blue;
 	void copy(const Pixel& other);
-	void erase();
 
 public:
 	Pixel();

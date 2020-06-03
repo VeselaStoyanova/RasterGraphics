@@ -1,7 +1,6 @@
-#include <iostream>
 #include "Transformation.h"
-using namespace std;
 
+using namespace std;
 
 ostream& operator<<(ostream& output, Transformation transformation)
 {

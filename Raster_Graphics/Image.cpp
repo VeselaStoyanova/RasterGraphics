@@ -1,5 +1,4 @@
-﻿#include <iostream>
-#include "Image.h"
+﻿#include "Image.h"
 
 using namespace std;
 
@@ -129,6 +128,8 @@ ostream& Image::outputImage(ostream& output)
 	return output;
 }
 
+//Намирането на индексите на пикселите при функцията rotate right става като от броя на колоните извадим 1 и j 
+//И колоните станат редове, а редовете колони.
 void Image::rotateLeftImage()
 {
 	int rows = matrix->getColumns();
@@ -152,6 +153,8 @@ void Image::rotateLeftImage()
 	matrix = new Matrix(rows, columns, rotatedMatrixPixels);
 }
 
+//Намирането на индексите на пикселите при функцията rotate right става като от броя на редовете извадим 1 и i 
+//И колоните станат редове, а редовете колони.
 void Image::rotateRightImage()
 {
 	int rows = matrix->getColumns();
@@ -175,6 +178,7 @@ void Image::rotateRightImage()
 	matrix = new Matrix(rows, columns, rotatedMatrixPixels);
 }
 
+//Функцията negativе променя цвета като от максималния възможен цвят изважда текущия.
 void Image::negative()
 {
 	for (int i = 0; i < matrix->getRows(); i++)

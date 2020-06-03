@@ -18,12 +18,16 @@ public:
 	void addTransformation(Transformation transformation);
 	void removeTransformation();
 
+	//Setters
 	void setSessionID(const int sessionID);
 	void setImages(vector<Image*>images);
 	void setTransformations(vector<Transformation>transformations);
+
+	//Getters
 	int getSessionID() const;
 	vector<Image*> getImages()const;
 	vector<Transformation> getTransformations() const;
+
 	void print();
 	void removeAllTransformations();
 };

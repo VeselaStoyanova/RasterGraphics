@@ -1,5 +1,4 @@
-﻿#include <iostream>
-#include "Matrix.h"
+﻿#include "Matrix.h"
 
 using namespace std;
 
@@ -8,12 +7,14 @@ void Matrix::copy(const Matrix& other)
 	this->rows = other.rows;
 	this->columns = other.columns;
 	
+	//Заделяме необходимата памет.
 	this->pixels = new Pixel* [rows];
 	for (int i = 0; i < rows; ++i)
 	{
 		this->pixels[i] = new Pixel[columns];
 	}
 
+	//Копираме самите стойности.
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < columns; j++)
 		{
@@ -150,19 +151,6 @@ Pixel** Matrix::getPixels() const
 	return this->pixels;
 }
 
-//ostream& operator<<(ostream& output, const Matrix& matrix)
-//{
-//	for (int i = 0; i < matrix.rows; i++) {
-//		for (int j = 0; j < matrix.columns; j++)
-//		{
-//			output << matrix.pixels[i][j] << " ";
-//		}
-//		output << endl;
-//	}
-//	
-//	return output;
-//}
-
 istream& operator>>(istream& input, Matrix& matrix)
 {
 	matrix.erase();
@@ -171,6 +159,7 @@ istream& operator>>(istream& input, Matrix& matrix)
 	input >> matrix.columns;
 
 	matrix.pixels = new Pixel* [matrix.rows];
+
 	for (int i = 0; i < matrix.rows; ++i)
 	{
 		matrix.pixels[i] = new Pixel[matrix.columns];
