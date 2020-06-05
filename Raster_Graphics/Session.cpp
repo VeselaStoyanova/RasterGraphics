@@ -1,4 +1,4 @@
-#include "Session.h"
+﻿#include "Session.h"
 
 using namespace std;
 
@@ -39,18 +39,23 @@ vector<Transformation> Session::getTransformations() const
 	return this->transformations;
 }
 
+//Функция, която добавя изображение във вектора от изображения.
 void Session::addImage(Image* image)
 {
 	this->images.push_back(image);
 }
 
+//Функция, която добавя трансформация във вектора от трансформации.
 void Session::addTransformation(Transformation transformation)
 {
 	this->transformations.push_back(transformation);
 }
 
+//Функция, която премахва трансформация от вектора с трансформации.
+//Използва се за функцията undo, която премахва последно направената трансформация.
 void Session::removeTransformation()
 {
+	//Проверяваме дали векторът е празен и ако не е, тогава премахваме трансформация.
 	if (!transformations.empty())
 	{
 		this->transformations.pop_back();
@@ -75,6 +80,7 @@ void Session::print()
 	}
 }
 
+//Функция, която премахва всички направени трансформации.
 void Session::removeAllTransformations()
 {
 	this->transformations.clear();

@@ -128,7 +128,7 @@ ostream& Image::outputImage(ostream& output)
 	return output;
 }
 
-//Намирането на индексите на пикселите при функцията rotate right става като от броя на колоните извадим 1 и j 
+//Намирането на индексите на пикселите при функцията rotate left става като от броя на колоните извадим 1 и j 
 //И колоните станат редове, а редовете колони.
 void Image::rotateLeftImage()
 {
@@ -145,7 +145,7 @@ void Image::rotateLeftImage()
 		for (int j = 0; j < matrix->getColumns(); j++)
 		{
 			int newColumns = matrix->getColumns() - j - 1;
-			rotatedMatrixPixels[newColumns][i] = matrix->getPixels()[i][j] ;
+			rotatedMatrixPixels[newColumns][i] = matrix->getPixels()[i][j];
 		}
 	}
 	

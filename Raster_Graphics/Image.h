@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include "Matrix.h"
 using namespace std;
@@ -36,11 +36,12 @@ public:
 	string getName() const;
 
 	friend istream& operator>>(istream& input, Image& image);
+
 	void rotateLeftImage();
 	void rotateRightImage();
 	void negative();
 	virtual void monochrome();
-
 	virtual void grayscale();
+
 	virtual ostream& outputImage(ostream& output);
 };
