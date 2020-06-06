@@ -5,6 +5,7 @@
 #include "Transformation.h"
 
 using namespace std;
+
 class Session
 {
 private:

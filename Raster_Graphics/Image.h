@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <iostream>
 #include "Matrix.h"
+
 using namespace std;
 
 class Image

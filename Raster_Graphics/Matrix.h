@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "Pixel.h"
+
 using namespace std;
 
 class Matrix

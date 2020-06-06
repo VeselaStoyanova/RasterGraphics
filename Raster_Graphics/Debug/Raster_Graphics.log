@@ -1,2 +1,36 @@
-﻿  PGMImage.cpp
+﻿  CommandsExecutor.cpp
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\CommandsExecutor.cpp(292,20): warning C4018: '<': signed/unsigned mismatch
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\CommandsExecutor.cpp(305,20): warning C4018: '<': signed/unsigned mismatch
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\CommandsExecutor.cpp(309,22): warning C4018: '<': signed/unsigned mismatch
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\CommandsExecutor.cpp(311,23): warning C4018: '<': signed/unsigned mismatch
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\CommandsExecutor.cpp(442,22): warning C4018: '<': signed/unsigned mismatch
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\CommandsExecutor.cpp(459,23): warning C4018: '<': signed/unsigned mismatch
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\CommandsExecutor.cpp(479,22): warning C4018: '<': signed/unsigned mismatch
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\CommandsExecutor.cpp(494,22): warning C4018: '<': signed/unsigned mismatch
+  Image.cpp
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\Image.cpp(21,25): warning C4305: 'argument': truncation from 'int' to 'const _Elem'
+          with
+          [
+              _Elem=char
+          ]
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\Image.cpp(21,21): warning C4309: 'argument': truncation of constant value
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\Image.cpp(23,19): warning C4305: 'argument': truncation from 'int' to 'const _Elem'
+          with
+          [
+              _Elem=char
+          ]
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\Image.cpp(23,15): warning C4309: 'argument': truncation of constant value
+  Main.cpp
+  Matrix.cpp
+  PBMImage.cpp
+  PGMImage.cpp
+  PPMImage.cpp
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\PPMImage.cpp(28,24): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  Pixel.cpp
+  Session.cpp
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\Session.cpp(70,20): warning C4018: '<': signed/unsigned mismatch
+D:\FMI\Github\Raster_Graphics\Raster_Graphics\Session.cpp(77,20): warning C4018: '<': signed/unsigned mismatch
+  Tests.cpp
+  Transformation.cpp
+  Generating Code...
   Raster_Graphics.vcxproj -> D:\FMI\Github\Raster_Graphics\Debug\Raster_Graphics.exe
