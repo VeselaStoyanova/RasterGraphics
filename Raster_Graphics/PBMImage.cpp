@@ -5,6 +5,7 @@ using namespace std;
 PBMImage::PBMImage(Matrix* matrix, string fileFormat, int maxColorValue, string name):
 		Image(matrix,fileFormat,maxColorValue,name)
 {
+
 }
 
 //За формат PBM няма значение кой цвят от клас Pixel ще вземем
@@ -21,6 +22,7 @@ ostream& PBMImage::outputImage(ostream& output)
 		{
 			output << matrix->getPixels()[i][j].getRed() << " ";
 		}
+
 		output << endl;
 	}
 

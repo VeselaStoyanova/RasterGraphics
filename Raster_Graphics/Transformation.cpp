@@ -11,7 +11,9 @@ ostream& operator<<(ostream& output, Transformation transformation)
 	case Transformation::NEGATIVE: output << "NEGATIVE"; break;
 	case Transformation::ROTATE_LEFT: output << "ROTATE_LEFT"; break;
 	case Transformation::ROTATE_RIGHT: output << "ROTATE_RIGHT"; break;
+
 	default: output << "Not a valid transformation"; break;
 	}
+
 	return output;
 }

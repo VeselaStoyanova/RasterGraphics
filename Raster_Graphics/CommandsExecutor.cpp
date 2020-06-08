@@ -76,6 +76,7 @@ Matrix* constructMatrix(int rows, int columns, vector<int>numbers, string fileTy
 Image* createImageWithMatrix(Matrix* matrix, string fileType, int maxColor, string filePath)
 {
 	Image* image = nullptr;
+
 	//Сравняваме типът на файла и създаваме съответния вид изображение.
 	if (fileType.compare("P1") == 0)
 	{
@@ -110,9 +111,12 @@ Image* loadFileWithImage(string filePath)
 		inputFileStream >> fileType;
 
 		int columns;
+
 		//Въвеждаме броят на колоните.
 		inputFileStream >> columns;
+
 		int rows;
+
 		//Въвеждаме броят на редовете.
 		inputFileStream >> rows;
 
@@ -126,7 +130,7 @@ Image* loadFileWithImage(string filePath)
 		//Броят на числата в матрицата е борят на редовете * броят на колоните.
 		int count = rows * columns;
 
-		//Броят на числата в матрицата при файловия формат "Р3" са брой на редове * брой на колони * 3
+		//Броят на числата в матрицата при файловия формат "Р3" са брой на редове * брой на колони * 3.
 		//Тъй като за всеки пиксел от матрицата отговарят по 3 стойности.
 		if (fileType.compare("P3") == 0)
 		{
@@ -371,7 +375,6 @@ void showMenu()
 			{
 				cout << "Error, not a valid name!" << endl;
 			}
-
 		}
 
 		else if (isSessionStarted == false && choice.compare("help") == 0)

@@ -9,6 +9,7 @@ void Matrix::copy(const Matrix& other)
 	
 	//Заделяме необходимата памет.
 	this->pixels = new Pixel* [rows];
+
 	for (int i = 0; i < rows; ++i)
 	{
 		this->pixels[i] = new Pixel[columns];
@@ -44,16 +45,15 @@ Matrix::Matrix(int rows, int columns, Pixel** pixels)
 {
 	this->rows = rows;
 	this->columns = columns;
-	
-	// Заделяме необходимата памет
+
 	this->pixels = new Pixel* [rows];
 	for (int i = 0; i < rows; ++i) 
 	{
 		this->pixels[i] = new Pixel[columns];
 	}
 
-	// Копираме самите стойности
-	for (int i = 0; i < rows; i++) {
+	for (int i = 0; i < rows; i++)
+	{
 		for (int j = 0; j < columns; j++)
 		{
 			this->pixels[i][j] = pixels[i][j];
@@ -121,6 +121,7 @@ void Matrix::setPixels(const Pixel **pixels)
 	this->erase();
 
 	this->pixels = new Pixel* [rows];
+
 	for (int i = 0; i < rows; ++i)
 	{
 		this->pixels[i] = new Pixel[columns];
@@ -172,5 +173,6 @@ istream& operator>>(istream& input, Matrix& matrix)
 			input >> matrix.pixels[i][j];
 		}
 	}
+
 	return input;
 }

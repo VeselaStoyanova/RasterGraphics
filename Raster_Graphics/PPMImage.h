@@ -6,6 +6,7 @@ using namespace std;
 
 class PPMImage : public Image
 {
+
 public:
 	PPMImage(Matrix* matrix, string fileFormat, int maxColorValue, string name);
 	void grayscale();

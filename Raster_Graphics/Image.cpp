@@ -135,6 +135,7 @@ void Image::rotateLeftImage()
 	int rows = matrix->getColumns();
 	int columns = matrix->getRows();
 	Pixel** rotatedMatrixPixels = new Pixel* [rows];
+
 	for (int i = 0; i < rows; ++i)
 	{
 		rotatedMatrixPixels[i] = new Pixel[columns];
@@ -160,6 +161,7 @@ void Image::rotateRightImage()
 	int rows = matrix->getColumns();
 	int columns = matrix->getRows();
 	Pixel** rotatedMatrixPixels = new Pixel * [rows];
+
 	for (int i = 0; i < rows; ++i)
 	{
 		rotatedMatrixPixels[i] = new Pixel[columns];
